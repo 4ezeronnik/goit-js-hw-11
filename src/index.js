@@ -1,3 +1,4 @@
+import Notiflix from "notiflix";
 
 const STORAGE_KEY = 'feedback-form-state';
 const inputRef = document.querySelector('input');
@@ -21,11 +22,22 @@ function onFormInput(evt) {
 function onFormSubmit(evt) {
     evt.preventDefault();
     const checkedData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || '';
-    if (!checkedData.searchQuery) {
+    const itemData = checkedData.searchQuery;
+    if (!itemData) {
         return
     }
-    fetchPictures(checkedData.searchQuery);
+    fetchPictures(itemData)
+        .then(({ hits }) => {
+            if (hits.length === 0) {
+                Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.');
+                return
+            }
+            else {
+                renderMarkup(hits);
+            }
 
+        })
+    
 }
 
 function fetchPictures(name) {
@@ -43,7 +55,7 @@ function renderMarkup(data) {
     const markup = data
         .map(
             ({ tags, webformatURL, largeImageURL, likes, views, comments, downloads }) => `
-   <div class="photo-card">
+   <div class="photo-card" href="${largeImageURL}">
   <img src="${webformatURL}" alt="${tags}" loading="lazy" />
   <div class="info">
     <p class="info-item">
