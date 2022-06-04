@@ -1,34 +1,25 @@
 import Notiflix from "notiflix";
-import debounce from "lodash.debounce";
+import ApiService from "./api-service";
 
-const DEBOUNCE_DELAY = 300;
-const STORAGE_KEY = 'feedback-form-state';
-const inputRef = document.querySelector('input');
+
 const formRef = document.querySelector('form#search-form');
+const loadMoreButton = document.querySelector('.load-more');
 const cardList = document.querySelector('.gallery');
-
+const apiService = new ApiService();
 
 
 formRef.addEventListener('submit', onFormSubmit);
-formRef.addEventListener('input', debounce(onFormInput, DEBOUNCE_DELAY));
+// loadMoreButton.addEventListener('click', onLoadMore);
 
-
-function onFormInput(evt) {
-    const formData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
-    formData[evt.target.name] = evt.target.value;
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
-    console.log(formData);
-}
 
 
 function onFormSubmit(evt) {
     evt.preventDefault();
-    const checkedData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || '';
-    const itemData = checkedData.searchQuery.trim();
-    if (!itemData) {
-        return
-    }
-    fetchPictures(itemData)
+
+    apiService.query = evt.currentTarget.elements.searchQuery.value;
+   
+    
+    apiService.fetchPictures()
         .then(({ hits }) => {
             if (hits.length === 0) {
                 Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.');
@@ -41,18 +32,7 @@ function onFormSubmit(evt) {
 
         })
     
-}
 
-function fetchPictures(name) {
-    const API_KEY = '16846852-36d31872340aa79693bfa0a07';
-  return  fetch(`https://pixabay.com/api/?key=${API_KEY}&q=${name}&image_type=photo&orientation=horizontal&safesearch=true`)
-    .then(response => {
-      if (!response.ok) {
-        throw new Error(response.statusText);
-      }
-            return response.json();
-        })
-}
 
 function renderMarkup(data) {
     const markup = data
@@ -79,3 +59,7 @@ function renderMarkup(data) {
 
     cardList.innerHTML = markup;
 }
+
+// function onLoadMore() {
+    
+// }
