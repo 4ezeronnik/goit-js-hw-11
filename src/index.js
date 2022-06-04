@@ -1,5 +1,7 @@
 import Notiflix from "notiflix";
+import debounce from "lodash.debounce";
 
+const DEBOUNCE_DELAY = 300;
 const STORAGE_KEY = 'feedback-form-state';
 const inputRef = document.querySelector('input');
 const formRef = document.querySelector('form#search-form');
@@ -8,7 +10,7 @@ const cardList = document.querySelector('.gallery');
 
 
 formRef.addEventListener('submit', onFormSubmit);
-formRef.addEventListener('input', onFormInput)
+formRef.addEventListener('input', debounce(onFormInput, DEBOUNCE_DELAY));
 
 
 function onFormInput(evt) {
@@ -22,7 +24,7 @@ function onFormInput(evt) {
 function onFormSubmit(evt) {
     evt.preventDefault();
     const checkedData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || '';
-    const itemData = checkedData.searchQuery;
+    const itemData = checkedData.searchQuery.trim();
     if (!itemData) {
         return
     }
@@ -30,6 +32,7 @@ function onFormSubmit(evt) {
         .then(({ hits }) => {
             if (hits.length === 0) {
                 Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.');
+                cardList.innerHTML = "";
                 return
             }
             else {
