@@ -15,9 +15,8 @@ formRef.addEventListener('submit', onFormSubmit);
 
 function onFormSubmit(evt) {
     evt.preventDefault();
-
+    
     apiService.query = evt.currentTarget.elements.searchQuery.value;
-   
     
     apiService.fetchPictures()
         .then(({ hits }) => {
@@ -28,10 +27,11 @@ function onFormSubmit(evt) {
             }
             else {
                 renderMarkup(hits);
+                
             }
 
         })
-    
+    }
 
 
 function renderMarkup(data) {
