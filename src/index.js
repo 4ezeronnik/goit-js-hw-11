@@ -17,7 +17,7 @@ function onFormSubmit(evt) {
     evt.preventDefault();
     
     apiService.query = evt.currentTarget.elements.searchQuery.value;
-    
+    apiService.resetPage();
     apiService.fetchPictures()
         .then(({ hits }) => {
             if (hits.length === 0) {
