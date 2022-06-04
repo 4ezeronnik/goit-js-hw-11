@@ -14,8 +14,7 @@ loadMoreButton.addEventListener('click', onLoadMore);
 
 function onFormSubmit(evt) {
     evt.preventDefault();
-    
-    clearPicturesContainer()
+
     apiService.query = evt.currentTarget.elements.searchQuery.value;
     apiService.resetPage();
     apiService.fetchPictures()
@@ -26,6 +25,7 @@ function onFormSubmit(evt) {
                 return
             }
             else {
+                clearPicturesContainer()
                 renderMarkup(hits);
                 
             }
