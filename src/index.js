@@ -9,7 +9,7 @@ const apiService = new ApiService();
 
 
 formRef.addEventListener('submit', onFormSubmit);
-// loadMoreButton.addEventListener('click', onLoadMore);
+loadMoreButton.addEventListener('click', onLoadMore);
 
 
 
@@ -60,6 +60,7 @@ function renderMarkup(data) {
     cardList.innerHTML = markup;
 }
 
-// function onLoadMore() {
-    
-// }
+function onLoadMore() {
+    apiService.fetchPictures()
+        .then(({ hits }) => renderMarkup(hits))
+};
