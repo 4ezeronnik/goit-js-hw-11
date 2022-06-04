@@ -12,10 +12,10 @@ formRef.addEventListener('submit', onFormSubmit);
 loadMoreButton.addEventListener('click', onLoadMore);
 
 
-
 function onFormSubmit(evt) {
     evt.preventDefault();
     
+    clearPicturesContainer()
     apiService.query = evt.currentTarget.elements.searchQuery.value;
     apiService.resetPage();
     apiService.fetchPictures()
@@ -57,10 +57,14 @@ function renderMarkup(data) {
 </div>
     `).join('');
 
-    cardList.innerHTML = markup;
+    cardList.insertAdjacentHTML('beforeend', markup);
 }
 
 function onLoadMore() {
     apiService.fetchPictures()
         .then(({ hits }) => renderMarkup(hits))
 };
+
+function clearPicturesContainer() {
+    cardList.innerHTML = "";
+}
