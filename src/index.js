@@ -1,33 +1,40 @@
 import Notiflix from "notiflix";
 import ApiService from "./api-service";
+import LoadMoreBtn from "./load-more-btn";
 
 
-const formRef = document.querySelector('form#search-form');
-const loadMoreButton = document.querySelector('.load-more');
+// const formRef = document.querySelector('form#search-form');
+// // const loadMoreButton = document.querySelector('.load-more');
 const cardList = document.querySelector('.gallery');
 const apiService = new ApiService();
 
 
+
 formRef.addEventListener('submit', onFormSubmit);
+
 loadMoreButton.addEventListener('click', onLoadMore);
 
 
 function onFormSubmit(evt) {
     evt.preventDefault();
 
-    apiService.query = evt.currentTarget.elements.searchQuery.value;
+  apiService.query = evt.currentTarget.elements.searchQuery.value.trim();
+  if (!apiService.query) {
+    return
+  }
     apiService.resetPage();
     apiService.fetchPictures()
         .then(({ hits }) => {
             if (hits.length === 0) {
                 Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.');
-                cardList.innerHTML = "";
+              cardList.innerHTML = "";
                 return
             }
             else {
                 clearPicturesContainer()
               renderMarkup(hits);
               console.log(hits);
+             
                 
             }
 
