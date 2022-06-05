@@ -26,7 +26,8 @@ function onFormSubmit(evt) {
             }
             else {
                 clearPicturesContainer()
-                renderMarkup(hits);
+              renderMarkup(hits);
+              console.log(hits);
                 
             }
 
