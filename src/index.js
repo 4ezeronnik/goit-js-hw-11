@@ -26,10 +26,14 @@ function onFormSubmit(evt) {
     return
   }
 
-    apiService.resetPage();
+  apiService.resetPage();
   
-    apiService.fetchPictures() 
-        .then(({ hits, totalHits }) => {
+  fetchFirstPictures();
+
+  async function fetchFirstPictures() {
+    const fetchOneOfThePictures = await apiService.fetchPictures();
+    console.log(fetchOneOfThePictures);
+    const { hits, totalHits } = fetchOneOfThePictures;
     if (hits.length === 0) {
       Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.');
       cardList.innerHTML = "";
@@ -46,32 +50,34 @@ function onFormSubmit(evt) {
           
     if (apiService.getCalculatePages() > totalHits) {
       loadMoreBtn.hide();
-      // Notiflix.Notify.warning(`We're sorry, but you've reached the end of search results.`);
     }
           
-  })
-      .catch(error => console.log(error));
   }
+  }
+
 
 function onLoadMore() {
   loadMoreBtn.hide();
-    apiService.fetchPictures()
-      .then(({ hits, totalHits }) => {
-           if (apiService.getCalculatePages() > totalHits) {
-             renderMarkup(hits);
-             loadMoreBtn.hide();
-             Notiflix.Notify.warning(`We're sorry, but you've reached the end of search results.`);
-           }
+
+  fetchMorePictures();
+
+  async function fetchMorePictures() {
+    const oneOfTheOtherPictures = await apiService.fetchPictures();
+    const { hits, totalHits } = oneOfTheOtherPictures;
+    
+        if (apiService.getCalculatePages() > totalHits) {
+          renderMarkup(hits);
+          loadMoreBtn.hide();
+          Notiflix.Notify.warning(`We're sorry, but you've reached the end of search results.`);
+        }
         else {
-             renderMarkup(hits);
-              loadMoreBtn.show();
+          renderMarkup(hits);
+          loadMoreBtn.show();
         }
       }
-    )
-  .catch(error => console.log(error))
-
+  }
   
-};
+
 
 function clearPicturesContainer() {
     cardList.innerHTML = "";

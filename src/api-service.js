@@ -29,8 +29,6 @@ export default class ApiService {
        
        const { hits, totalHits } = data;
         
-   
-        
         this.incrementPage();
 
         return { hits, totalHits };
@@ -43,7 +41,6 @@ export default class ApiService {
     incrementPage() {
         this.page += 1;
     };
-
 
     resetPage() {
         this.page = 1;
