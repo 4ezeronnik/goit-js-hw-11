@@ -44,7 +44,7 @@ function onFormSubmit(evt) {
           
            if (apiService.getCalculatePages() > totalHits) {
              loadMoreBtn.hide();
-              Notiflix.Notify.warning(`We're sorry, but you've reached the end of search results.`);
+              // Notiflix.Notify.warning(`We're sorry, but you've reached the end of search results.`);
            }
           
         })
@@ -82,6 +82,7 @@ function onLoadMore() {
     apiService.fetchPictures()
       .then(({ hits, totalHits }) => {
            if (apiService.getCalculatePages() > totalHits) {
+             renderMarkup(hits);
              loadMoreBtn.hide();
              Notiflix.Notify.warning(`We're sorry, but you've reached the end of search results.`);
            }
