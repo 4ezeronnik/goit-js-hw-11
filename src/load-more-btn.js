@@ -8,18 +8,8 @@ export default class LoadMoreBtn {
     getRefs(selector) {
         const refs = {};
         refs.button = document.querySelector(selector);
-        refs.label = refs.button.querySelector('.label');
 
         return refs;
-    }
-
-    enable() {
-        this.refs.button.disabled = false;
-        this.refs.label.textContent = 'Показать еще';
-    }
-    
-    disable() {
-        this.refs.button.disabled = true;
     }
 
     show() {

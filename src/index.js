@@ -14,7 +14,6 @@ const loadMoreBtn = new LoadMoreBtn({
 console.log(loadMoreBtn);
 
 
-
 formRef.addEventListener('submit', onFormSubmit);
 loadMoreBtn.refs.button.addEventListener('click', onLoadMore);
 
@@ -26,6 +25,7 @@ function onFormSubmit(evt) {
   if (!apiService.query) {
     return
   }
+
     apiService.resetPage();
     apiService.fetchPictures()
         .then(({ hits }) => {
@@ -41,7 +41,7 @@ function onFormSubmit(evt) {
              
                 
             }
-
+          loadMoreBtn.show();
         })
     }
 
@@ -73,8 +73,10 @@ function renderMarkup(data) {
 }
 
 function onLoadMore() {
+  loadMoreBtn.hide();
     apiService.fetchPictures()
-        .then(({ hits }) => renderMarkup(hits))
+      .then(({ hits }) => renderMarkup(hits))
+  loadMoreBtn.show();
 };
 
 function clearPicturesContainer() {
