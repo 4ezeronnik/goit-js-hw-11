@@ -1,6 +1,7 @@
 import Notiflix from "notiflix";
 import ApiService from "./api-service";
 import LoadMoreBtn from "./load-more-btn";
+import axios from "axios";
 
 
 const formRef = document.querySelector('form#search-form');
@@ -48,6 +49,7 @@ function onFormSubmit(evt) {
            }
           
         })
+        .catch(error => console.log(error));
     }
 
 
@@ -91,7 +93,8 @@ function onLoadMore() {
               loadMoreBtn.show();
         }
       }
-        )
+    )
+  .catch(error => console.log(error))
 
   
 };
