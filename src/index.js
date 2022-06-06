@@ -1,12 +1,12 @@
 import Notiflix from "notiflix";
 import ApiService from "./api-service";
 import LoadMoreBtn from "./load-more-btn";
+import { renderMarkup } from "./renderMarkup";
+import { cardList } from "./renderMarkup";
 import axios from "axios";
 
 
 const formRef = document.querySelector('form#search-form');
-// const loadMoreButton = document.querySelector('.load-more');
-const cardList = document.querySelector('.gallery');
 const apiService = new ApiService();
 const loadMoreBtn = new LoadMoreBtn({
   selector: '.load-more',
@@ -19,7 +19,7 @@ loadMoreBtn.refs.button.addEventListener('click', onLoadMore);
 
 
 function onFormSubmit(evt) {
-    evt.preventDefault();
+  evt.preventDefault();
 
   apiService.query = evt.currentTarget.elements.searchQuery.value.trim();
   if (!apiService.query) {
@@ -27,57 +27,31 @@ function onFormSubmit(evt) {
   }
 
     apiService.resetPage();
-    apiService.fetchPictures()
+  
+    apiService.fetchPictures() 
         .then(({ hits, totalHits }) => {
-            if (hits.length === 0) {
-                Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.');
-              cardList.innerHTML = "";
-                return
-            }
-         
-            else {
-              clearPicturesContainer()
-              renderMarkup(hits);
-              console.log(hits);
-              console.log(totalHits);
-              loadMoreBtn.show();
-            }
-          
-           if (apiService.getCalculatePages() > totalHits) {
-             loadMoreBtn.hide();
-              // Notiflix.Notify.warning(`We're sorry, but you've reached the end of search results.`);
-           }
-          
-        })
-        .catch(error => console.log(error));
+    if (hits.length === 0) {
+      Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.');
+      cardList.innerHTML = "";
+      return
     }
-
-
-function renderMarkup(data) {
-    const markup = data
-        .map(
-            ({ tags, webformatURL, largeImageURL, likes, views, comments, downloads }) => `
-   <div class="photo-card" href="${largeImageURL}">
-  <img src="${webformatURL}" alt="${tags}" loading="lazy" />
-  <div class="info">
-    <p class="info-item">
-      <b>Likes</b>${likes}
-    </p>
-    <p class="info-item">
-      <b>Views</b>${views}
-    </p>
-    <p class="info-item">
-      <b>Comments</b>${comments}
-    </p>
-    <p class="info-item">
-      <b>Downloads</b>${downloads}
-    </p>
-  </div>
-</div>
-    `).join('');
-
-    cardList.insertAdjacentHTML('beforeend', markup);
-}
+         
+    else {
+      clearPicturesContainer()
+      renderMarkup(hits);
+      console.log(hits);
+      console.log(totalHits);
+      loadMoreBtn.show();
+    }
+          
+    if (apiService.getCalculatePages() > totalHits) {
+      loadMoreBtn.hide();
+      // Notiflix.Notify.warning(`We're sorry, but you've reached the end of search results.`);
+    }
+          
+  })
+      .catch(error => console.log(error));
+  }
 
 function onLoadMore() {
   loadMoreBtn.hide();
