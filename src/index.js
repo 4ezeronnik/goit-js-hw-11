@@ -3,16 +3,20 @@ import ApiService from "./api-service";
 import LoadMoreBtn from "./load-more-btn";
 
 
-// const formRef = document.querySelector('form#search-form');
-// // const loadMoreButton = document.querySelector('.load-more');
+const formRef = document.querySelector('form#search-form');
+// const loadMoreButton = document.querySelector('.load-more');
 const cardList = document.querySelector('.gallery');
 const apiService = new ApiService();
+const loadMoreBtn = new LoadMoreBtn({
+  selector: '.load-more',
+  hidden: true,
+})
+console.log(loadMoreBtn);
 
 
 
 formRef.addEventListener('submit', onFormSubmit);
-
-loadMoreButton.addEventListener('click', onLoadMore);
+loadMoreBtn.refs.button.addEventListener('click', onLoadMore);
 
 
 function onFormSubmit(evt) {
