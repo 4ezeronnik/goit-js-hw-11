@@ -31,9 +31,9 @@ function onFormSubmit(evt) {
   fetchFirstPictures();
 
   async function fetchFirstPictures() {
-    const fetchOneOfThePictures = await apiService.fetchPictures();
-    console.log(fetchOneOfThePictures);
-    const { hits, totalHits } = fetchOneOfThePictures;
+    const itemPictures = await apiService.fetchPictures();
+  
+    const { hits, totalHits } = itemPictures;
     if (hits.length === 0) {
       Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.');
       cardList.innerHTML = "";
@@ -62,8 +62,8 @@ function onLoadMore() {
   fetchMorePictures();
 
   async function fetchMorePictures() {
-    const oneOfTheOtherPictures = await apiService.fetchPictures();
-    const { hits, totalHits } = oneOfTheOtherPictures;
+    const itemPictures = await apiService.fetchPictures();
+    const { hits, totalHits } = itemPictures;
     
         if (apiService.getCalculatePages() > totalHits) {
           renderMarkup(hits);
