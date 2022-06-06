@@ -11,7 +11,6 @@ const loadMoreBtn = new LoadMoreBtn({
   selector: '.load-more',
   hidden: true,
 })
-console.log(loadMoreBtn);
 
 
 formRef.addEventListener('submit', onFormSubmit);
@@ -28,20 +27,26 @@ function onFormSubmit(evt) {
 
     apiService.resetPage();
     apiService.fetchPictures()
-        .then(({ hits }) => {
+        .then(({ hits, totalHits }) => {
             if (hits.length === 0) {
                 Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.');
               cardList.innerHTML = "";
                 return
             }
+         
             else {
-                clearPicturesContainer()
+              clearPicturesContainer()
               renderMarkup(hits);
               console.log(hits);
-             
-                
+              console.log(totalHits);
+              loadMoreBtn.show();
             }
-          loadMoreBtn.show();
+          
+           if (apiService.getCalculatePages() > totalHits) {
+             loadMoreBtn.hide();
+              Notiflix.Notify.warning(`We're sorry, but you've reached the end of search results.`);
+           }
+          
         })
     }
 
@@ -75,8 +80,19 @@ function renderMarkup(data) {
 function onLoadMore() {
   loadMoreBtn.hide();
     apiService.fetchPictures()
-      .then(({ hits }) => renderMarkup(hits))
-  loadMoreBtn.show();
+      .then(({ hits, totalHits }) => {
+           if (apiService.getCalculatePages() > totalHits) {
+             loadMoreBtn.hide();
+             Notiflix.Notify.warning(`We're sorry, but you've reached the end of search results.`);
+           }
+        else {
+             renderMarkup(hits);
+              loadMoreBtn.show();
+        }
+      }
+        )
+
+  
 };
 
 function clearPicturesContainer() {
