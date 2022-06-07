@@ -7,6 +7,7 @@ import { clearPicturesContainer } from "./js/clearPictureContainer";
 import simpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
 import axios from "axios";
+import InfiniteScroll from "infinite-scroll";
 
 
 const formRef = document.querySelector('form#search-form');
@@ -53,8 +54,7 @@ function onFormSubmit(evt) {
       loadMoreBtn.show();
 
       const lightbox = new SimpleLightbox('.gallery a', { /* options */ });
-     
-      
+    
     }
           
     if (apiService.getCalculatePages() > totalHits) {
@@ -63,7 +63,6 @@ function onFormSubmit(evt) {
           
   }
   }
-
 
 function onLoadMore() {
   const { height: cardHeight } = document
@@ -74,7 +73,7 @@ window.scrollBy({
   top: cardHeight * 2,
   behavior: "smooth",
 });
-  
+
   loadMoreBtn.hide();
 
   fetchMorePictures();
@@ -88,13 +87,14 @@ window.scrollBy({
           loadMoreBtn.hide();
           Notiflix.Notify.warning(`We're sorry, but you've reached the end of search results.`);
           const lightbox = new SimpleLightbox('.gallery a', { /* options */ });
-      lightbox.refresh();
+          lightbox.refresh();
+  
         }
         else {
           renderMarkup(hits);
           loadMoreBtn.show();
           const lightbox = new SimpleLightbox('.gallery a', { /* options */ });
-      lightbox.refresh();
+          lightbox.refresh();
         }
       }
   }
