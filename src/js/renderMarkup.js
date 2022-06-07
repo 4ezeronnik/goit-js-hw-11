@@ -6,7 +6,7 @@ export function renderMarkup(data) {
           ({ tags, webformatURL, largeImageURL, likes, views, comments, downloads }) => `
   <div class="photo-card">
   <a  href="${largeImageURL}">
-  <img src="${webformatURL}" alt="${tags}" loading="lazy" /></a>
+  <img src="${webformatURL}" alt="${tags}" class="photo-card__preview" " loading="lazy" /></a>
   <div class="info">
     <p class="info-item">
       <b>Likes</b><span class="info-item__span">${likes}</span>
