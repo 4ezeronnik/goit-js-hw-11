@@ -1,2 +1,0 @@
-.is-hidden{display:none}*{box-sizing:border-box}img{display:block;max-width:100%;height:auto}.container{max-width:1200px;padding:5px;margin-left:auto;margin-right:auto}.gallery{display:flex;flex-wrap:wrap;gap:10px;padding:0;list-style:none}.photo-card{flex-basis:calc(25% - 5px);padding:20px;flex-grow:1;border-bottom:1px solid #eee;cursor:pointer}.info-item{display:inline}.info-item__span{display:block}.photo-card__preview{max-height:440px}
-/*# sourceMappingURL=/goit-js-hw-11/styles.40c13d27.css.map */
