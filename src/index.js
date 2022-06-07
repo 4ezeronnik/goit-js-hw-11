@@ -44,6 +44,7 @@ function onFormSubmit(evt) {
     else {
       clearPicturesContainer()
       renderMarkup(hits);
+      Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`)
       console.log(hits);
       console.log(totalHits);
       loadMoreBtn.show();
