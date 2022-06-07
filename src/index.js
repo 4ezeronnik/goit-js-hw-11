@@ -4,6 +4,8 @@ import LoadMoreBtn from "./js/load-more-btn";
 import { renderMarkup } from "./js/renderMarkup";
 import { cardList } from "./js/renderMarkup";
 import { clearPicturesContainer } from "./js/clearPictureContainer";
+import simpleLightbox from "simplelightbox";
+import "simplelightbox/dist/simple-lightbox.min.css";
 import axios from "axios";
 
 
@@ -17,6 +19,7 @@ const loadMoreBtn = new LoadMoreBtn({
 
 formRef.addEventListener('submit', onFormSubmit);
 loadMoreBtn.refs.button.addEventListener('click', onLoadMore);
+
 
 
 function onFormSubmit(evt) {
@@ -48,6 +51,10 @@ function onFormSubmit(evt) {
       console.log(hits);
       console.log(totalHits);
       loadMoreBtn.show();
+
+      const lightbox = new SimpleLightbox('.gallery a', { /* options */ });
+     
+      
     }
           
     if (apiService.getCalculatePages() > totalHits) {
@@ -59,6 +66,15 @@ function onFormSubmit(evt) {
 
 
 function onLoadMore() {
+  const { height: cardHeight } = document
+  .querySelector(".gallery")
+  .firstElementChild.getBoundingClientRect();
+
+window.scrollBy({
+  top: cardHeight * 2,
+  behavior: "smooth",
+});
+  
   loadMoreBtn.hide();
 
   fetchMorePictures();
@@ -71,10 +87,14 @@ function onLoadMore() {
           renderMarkup(hits);
           loadMoreBtn.hide();
           Notiflix.Notify.warning(`We're sorry, but you've reached the end of search results.`);
+          const lightbox = new SimpleLightbox('.gallery a', { /* options */ });
+      lightbox.refresh();
         }
         else {
           renderMarkup(hits);
           loadMoreBtn.show();
+          const lightbox = new SimpleLightbox('.gallery a', { /* options */ });
+      lightbox.refresh();
         }
       }
   }

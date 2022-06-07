@@ -3,9 +3,9 @@ export const cardList = document.querySelector('.gallery');
 export function renderMarkup(data) {
     const markup = data
         .map(
-            ({ tags, webformatURL, largeImageURL, likes, views, comments, downloads }) => `
-   <div class="photo-card" href="${largeImageURL}">
-  <img src="${webformatURL}" alt="${tags}" loading="lazy" />
+          ({ tags, webformatURL, largeImageURL, likes, views, comments, downloads }) => `
+  <a class="photo-card" href="${largeImageURL}">
+  <img src="${webformatURL}" alt="${tags}" loading="lazy" /></a>
   <div class="info">
     <p class="info-item">
       <b>Likes</b>${likes}
@@ -19,7 +19,6 @@ export function renderMarkup(data) {
     <p class="info-item">
       <b>Downloads</b>${downloads}
     </p>
-  </div>
 </div>
     `).join('');
 
