@@ -12,13 +12,13 @@ export function renderMarkup(data) {
       <b>Likes</b><span class="info-item__span">${likes}</span>
     </p>
     <p class="info-item">
-      <b>Views</b>${views}
+      <b>Views</b><span class="info-item__span">${views}</span>
     </p>
     <p class="info-item">
-      <b>Comments</b>${comments}
+      <b>Comments</b><span class="info-item__span">${comments}</span>
     </p>
     <p class="info-item">
-      <b>Downloads</b>${downloads}
+      <b>Downloads</b><span class="info-item__span">${downloads}</span>
     </p>
 </div>
 </div>
