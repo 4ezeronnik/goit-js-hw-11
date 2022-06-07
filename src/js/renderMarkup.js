@@ -4,7 +4,8 @@ export function renderMarkup(data) {
     const markup = data
         .map(
           ({ tags, webformatURL, largeImageURL, likes, views, comments, downloads }) => `
-  <a class="photo-card" href="${largeImageURL}">
+  <div class="photo-card">
+  <a  href="${largeImageURL}">
   <img src="${webformatURL}" alt="${tags}" loading="lazy" /></a>
   <div class="info">
     <p class="info-item">
@@ -19,6 +20,7 @@ export function renderMarkup(data) {
     <p class="info-item">
       <b>Downloads</b>${downloads}
     </p>
+</div>
 </div>
     `).join('');
 
