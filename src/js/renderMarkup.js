@@ -9,7 +9,7 @@ export function renderMarkup(data) {
   <img src="${webformatURL}" alt="${tags}" loading="lazy" /></a>
   <div class="info">
     <p class="info-item">
-      <b>Likes</b>${likes}
+      <b>Likes</b><span class="info-item__span">${likes}</span>
     </p>
     <p class="info-item">
       <b>Views</b>${views}
