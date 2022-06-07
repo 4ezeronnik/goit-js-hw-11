@@ -1,8 +1,9 @@
 import Notiflix from "notiflix";
-import ApiService from "./api-service";
-import LoadMoreBtn from "./load-more-btn";
-import { renderMarkup } from "./renderMarkup";
-import { cardList } from "./renderMarkup";
+import ApiService from "./js/api-service";
+import LoadMoreBtn from "./js/load-more-btn";
+import { renderMarkup } from "./js/renderMarkup";
+import { cardList } from "./js/renderMarkup";
+import { clearPicturesContainer } from "./js/clearPictureContainer";
 import axios from "axios";
 
 
@@ -36,7 +37,7 @@ function onFormSubmit(evt) {
     const { hits, totalHits } = itemPictures;
     if (hits.length === 0) {
       Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.');
-      cardList.innerHTML = "";
+      clearPicturesContainer();
       return
     }
          
@@ -77,8 +78,3 @@ function onLoadMore() {
       }
   }
   
-
-
-function clearPicturesContainer() {
-    cardList.innerHTML = "";
-}
